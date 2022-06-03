@@ -1,0 +1,12 @@
+ChipCap2.c:24:6:chipCap2_begin	24	static
+ChipCap2.c:34:19:chipCap2_readMeasurements	24	static
+ChipCap2.c:45:19:chipCap2_startCmndMode	24	static
+ChipCap2.c:63:19:chipCap2_endCmndMode	24	static
+ChipCap2.c:69:23:chipCap2_readEproom	32	static
+ChipCap2.c:76:23:chipCap2_changeAddress	40	static
+ChipCap2.c:88:23:chipCap2_sendCommand	48	static
+ChipCap2.c:125:6:chipCap2_translateResult	16	static
+ChipCap2.c:135:6:chipCap2_power	16	static
+ChipCap2.c:143:6:chipCap2_delay	16	static
+ChipCap2.c:152:6:chipCap2_writeData	40	static
+ChipCap2.c:273:6:chipCap2_readData	40	static

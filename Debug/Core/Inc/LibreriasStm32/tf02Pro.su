@@ -1,0 +1,9 @@
+tf02Pro.c:15:6:tf02Pro_begin	24	static
+tf02Pro.c:25:6:tf02Pro_getData	32	static
+tf02Pro.c:74:6:tf02Pro_getDataCM	16	static
+tf02Pro.c:78:6:tf02Pro_getDataMM	16	static
+tf02Pro.c:87:6:tf02Pro_sendCommand64	88	dynamic
+tf02Pro.c:170:6:tf02Pro_sendCommand32	72	dynamic
+tf02Pro.c:279:6:tf02Pro_delay	16	static
+tf02Pro.c:288:6:tf02Pro_writeData	40	static
+tf02Pro.c:402:6:tf02Pro_readData	40	static

@@ -1,0 +1,2 @@
+bluetooth.c:13:6:write_bluetooth	24	static
+bluetooth.c:20:6:read_bluetooth	24	static

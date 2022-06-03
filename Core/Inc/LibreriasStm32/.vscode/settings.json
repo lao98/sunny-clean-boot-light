@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.tcc": "c",
+        "bitset": "c",
+        "algorithm": "c",
+        "random": "c",
+        "fstream": "c",
+        "streambuf": "c",
+        "deque": "c",
+        "string": "c",
+        "vector": "c",
+        "system_error": "c",
+        "array": "c",
+        "mdc100.h": "c"
+    }
+}
