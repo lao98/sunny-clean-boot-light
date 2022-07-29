@@ -50,7 +50,7 @@ for(int i=0;i<10;i++) device->channels[i]=0;
 			printf("canal 9 %d\n",device->channels[8]);
 			printf("canal 10 %d\n",device->channels[9]);
 
-            HAL_Delay(100);
+            //HAL_Delay(1000);
 
 			return R12DS_OK;
 
@@ -140,9 +140,9 @@ bool r9ds_readData(r9ds_t *device)//
 
 void updateCallback(r9ds_t* device)
     {
-        data_t data_rec;
-        data_t data_;
 
+        data_t data_;
+        /*
         data_rec.onOff.value = convertSwitch(device->channels[CH_ONOFF]);
         data_rec.onOff.change = (data_.onOff.value != data_rec.onOff.value) ? 1 : 0;
 
@@ -151,32 +151,32 @@ void updateCallback(r9ds_t* device)
 
         data_rec.elecValOnOff.value = convertSwitch(device->channels[CH_ELECVAL_ONOFF]);
         data_rec.elecValOnOff.change=  (data_.elecValOnOff.value != data_rec.elecValOnOff.value) ? 1 : 0;
-
+        */
         data_rec.brushesOnOff.value = convertSwitch(device->channels[CH_BRU_ONOFF]);
         data_rec.brushesOnOff.change = (data_.brushesOnOff.value != data_rec.brushesOnOff.value) ? 1 : 0;
 
-        data_rec.elecVal.value =  convert3Switch(device->channels[CH_ELECVAL]); //data_rec.elecValOnOff.value ? convert3Switch(device->channels[CH_ELECVAL]) : 0;
-        data_rec.elecVal.change = (data_.elecVal.value != data_rec.elecVal.value) ? 1 : 0;
+        device->BRU_ONOFF= data_rec.brushesOnOff.value;
 
-        int brushes = convert3Switch(device->channels[CH_BRU]);
 
-        data_rec.brush.value=brushes;
+        data_rec.vel_orugas.value =  convert3Switch(device->channels[ CH_VEL_ORUGAS]); //data_rec.elecValOnOff.value ? convert3Switch(device->channels[CH_ELECVAL]) : 0;
+        data_rec.vel_orugas.change = (data_.vel_orugas.value != data_rec.vel_orugas.value) ? 1 : 0;
+        device->vel_orugas=data_rec.vel_orugas.value;
+        printf("vel_orugas %d\n", device->vel_orugas);
+
+        device->brushes = convert3Switch(device->channels[CH_BRU_1_2_ONOFF]);
+
+        data_rec.brush.value=device->brushes;
         data_rec.brush.value= (data_.brush.value != data_rec.brush.value) ? 1 : 0;
-
-        data_rec.frontBrushSpeed.value = ((brushes == 1 ||
-                                     brushes == 2) &&
-                                    data_rec.brushesOnOff.value)
+        /*
+        data_rec.frontBrushSpeed.value = ((device->brushes == 1 || device->brushes == 2) && data_rec.brushesOnOff.value)
                                        ? convertKnob(device->channels[CH_BRU0_VEL],
                                                      rf_.max_speed_brush, rf_.min_speed_brush)
                                        : 0.0;
-                                       
+        */
         data_rec.frontBrushSpeed.change = (data_.frontBrushSpeed.value != data_rec.frontBrushSpeed.value) ? 1 : 0;
 
-        data_rec.backBrushSpeed.value = ((brushes == 3 ||
-                                    brushes == 2) &&
-                                   data_rec.brushesOnOff.value)
-                                      ? convertKnob(device->channels[CH_BRU1_VEL],
-                                                    rf_.max_speed_brush, rf_.min_speed_brush)
+        data_rec.backBrushSpeed.value = ((device->brushes == 3 ||device->brushes == 2) && data_rec.brushesOnOff.value)
+                                      ? convertKnob(device->channels[CH_BRU1_VEL], rf_.max_speed_brush, rf_.min_speed_brush)
                                       : 0.0;
         data_rec.backBrushSpeed.change = (data_.backBrushSpeed.value != data_rec.backBrushSpeed.value) ? 1 : 0;
 

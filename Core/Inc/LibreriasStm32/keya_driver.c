@@ -1,10 +1,10 @@
-#include "include/keya_driver.h"
+# include "include/keya_driver.h"
 
 
 
 keya_status_t status;
 
-
+uint8_t da[15];
 extern DMA_HandleTypeDef hdma_usart6_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
@@ -12,7 +12,6 @@ char buffer_rec[20]={0,0,0,0,0,0,0,0,0,0,
 		         0,0,0,0,0,0,0,0,0,0};
 /*status_t begin(keya_t *device)
 {
-
 }*/
 
 
@@ -299,13 +298,14 @@ void  get_lock_state(keya_t *device , bool *lock_state)
 }
 
 
-keya_status_t set_speed(keya_t *device,int * velocity_wheels)
+keya_status_t set_speed(keya_t *device, int *velocity_wheels)
 {
-    int velocity[2];
-    velocity_wheels[1] = -velocity_wheels[1];
-    velocity[0]=velocity_wheels[0];
-    velocity[1]=velocity_wheels[1];
-    return send_command_reading(device,SET_MOTOR_SPEED, velocity);// command -> + reading
+
+    sprintf(da, "!M %d %d", velocity_wheels[0], velocity_wheels[1]);
+    write_keya(device, da, 15);
+
+    //osDelay(1000);
+    //return send_command_reading(device,SET_MOTOR_SPEED, velocity);// command -> + reading
 }
 
 keya_status_t set_soft_start(keya_t *device,int rpm_slope)

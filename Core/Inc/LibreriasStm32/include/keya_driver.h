@@ -298,6 +298,7 @@ void get_lock_state(keya_t *device, bool * lock_state);
     * \return status_t which informs the result of the operation 
     *
     */
+
 keya_status_t set_speed(keya_t *device,int * velocity_wheels);
 
 keya_status_t set_soft_start(keya_t *device,int rpm_slope);

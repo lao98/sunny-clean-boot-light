@@ -1,4 +1,4 @@
-kinematics.c:17:8:cmddriver	32	static
-kinematics.c:33:8:drivercmd	24	static
-kinematics.c:52:8:Motorsvel	24	static
-kinematics.c:77:8:controlvel	24	static
+kinematics.c:15:6:cmddriver	24	static
+kinematics.c:33:6:driverspeed	24	static
+kinematics.c:51:6:Motorsvel	16	static
+kinematics.c:78:6:controlvel	40	static

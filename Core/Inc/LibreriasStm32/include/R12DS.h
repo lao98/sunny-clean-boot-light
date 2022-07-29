@@ -43,12 +43,12 @@
 #define CH_U_D  2
 #define CH_ELECVAL 4
 #define CH_ONOFF  5
-#define CH_ELECVAL_ONOFF  6
-#define CH_BRU0_VEL  7
-#define CH_BRU1_VEL  8
+#define CH_BRU_1_2_ONOFF  6
+#define CH_VEL_ORUGAS  8
+#define CH_BRU1_VEL  7
 #define CH_BRU_ONOFF  9
-#define CH_BRAKE  10
-#define CH_BRU 11
+//#define CH_BRAKE  10
+//#define CH_BRU 11
 
 typedef struct 
 {
@@ -80,7 +80,7 @@ typedef struct
 	values_int_t brake;
 	values_int_t elecValOnOff;
 	values_int_t brushesOnOff;
-	values_int_t elecVal;
+	values_int_t vel_orugas;
 	values_int_t brush;
 
 	values_int_t frontBrushSpeed;
@@ -89,6 +89,7 @@ typedef struct
 	values_float_t robotAngularVelocity;
 }data_t;
 
+data_t data_rec;
 typedef struct
 {
 	float max_speed_linear;
@@ -135,6 +136,9 @@ typedef struct{
 	int channels[10];
 	float control;
 	float control_w;
+	int BRU_ONOFF;
+	int brushes;
+	int vel_orugas;
 
 	r9ds_status_t status;
 }r9ds_t;

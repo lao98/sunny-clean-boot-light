@@ -1,6 +1,6 @@
 R12DS.c:19:15:r9ds_getChannels	24	static
 R12DS.c:106:6:r9ds_readData	24	static
-R12DS.c:141:6:updateCallback	184	static
+R12DS.c:141:6:updateCallback	96	static
 R12DS.c:202:5:convertSwitch	16	static
 R12DS.c:211:5:convert3Switch	16	static
 R12DS.c:227:7:convertKnob	32	static

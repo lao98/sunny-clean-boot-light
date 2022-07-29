@@ -54,6 +54,11 @@ int send_cmd[2];
 
 /* Private variables ---------------------------------------------------------*/
 
+TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim4;
+
 UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart3_rx;
@@ -126,6 +131,10 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_TIM1_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_TIM3_Init(void);
+static void MX_TIM4_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -168,6 +177,10 @@ int main(void)
   MX_DMA_Init();
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   __HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE);
   //__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
@@ -304,6 +317,268 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 108-1;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 100-1;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.BreakFilter = 0;
+  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+  sBreakDeadTimeConfig.Break2Filter = 0;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+  HAL_TIM_MspPostInit(&htim1);
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 30;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 100;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+
+
+
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 30;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 100;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 108-1;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 100-1;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+  HAL_TIM_MspPostInit(&htim4);
+
+}
+
+/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -404,6 +679,8 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
@@ -460,15 +737,15 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 }
 
 
-//PUTCHAR_PROTOTYPE
-//{
+PUTCHAR_PROTOTYPE
+{
   /* Place your implementation of fputc here */
   /* e.g. write a character to the EVAL_COM1 and Loop until the end of transmission*/
 
-  //HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, 0xFFFF);
+   //HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, 0xFFFF);
 
-  //return ch;
-//}
+  return ch;
+}
 
 
 /* USER CODE END 4 */
@@ -484,9 +761,12 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
 	uint8_t da[15];
+	TIM4 -> CCR1  = 100 ;
+    TIM1 -> CCR1  = 100 ;
 	cal_variable_t  variable={.driver=0};
 
-	r9ds_t  r9ds ={.huart_r9ds=&huart3,.mutex_uart_rx=&rf_mutex_uart_rxHandle,.semaphore_uartIdle=&RF_RXsemITHandle ,.control=0,.control_w=0};//.hdma_usart_rx=&hdma_usart3_rx,
+	r9ds_t  r9ds ={.huart_r9ds=&huart3,.mutex_uart_rx=&rf_mutex_uart_rxHandle,.semaphore_uartIdle=&RF_RXsemITHandle ,
+			       .control=0,.control_w=0,.BRU_ONOFF=0,.brushes=0,.vel_orugas=0};//.hdma_usart_rx=&hdma_usart3_rx,
     /*
 	buff_t buff_blu ={.huart_blu=&huart6, .buff_RXmutex=&buff_RXmutexHandle, .buff_TXmutex=&buff_TXmutexHandle,
 									 .buff_RXsem=&buff_RXsemITHandle,.buff_TXsem=&buff_TXsemITHandle,
@@ -498,6 +778,7 @@ void StartDefaultTask(void *argument)
 
 	keya_t keya_driver ={.huart=&huart6, .uartRXmutex=&uartRXmutexHandle, .uartTXmutex=&uartTXmutexHandle,.uartRXsem=&uartRXsemITHandle,
 			             .uartTXsem=&uartTXsemITHandle,.BUFFER_SIZE=50, .buffer_len=0};
+    //data_rec data_env={ .onOff=0,.brake=0,.elecValOnOff=0,.brushesOnOff=0,.elecVal=0,.brush=0,.frontBrushSpeed=0,.backBrushSpeed=0,.robotLinearVelocity=0,.robotAngularVelocity=0}
 
 
   /* Infinite loop */
@@ -508,29 +789,91 @@ void StartDefaultTask(void *argument)
 
 
 
-	  osDelay(100);
-
+	  //osDelay(100);
+	  /*
+	  TIM1 -> CCR1  = 0 ;
+	  TIM2 -> CCR1  = 0 ;
+	  TIM3 -> CCR1  = 0 ;
+	  TIM4 -> CCR1  = 0 ;
+	  */
 	  printf("\n");
       printf("prueba rf \n");
 	  r9ds_getChannels(&r9ds);
 	  updateCallback(&r9ds);
 	  float velocidad_lineal=r9ds.control;
 	  float velocidad_angular=r9ds.control_w;
+	  int BRUS_ONOFF=r9ds.BRU_ONOFF;
+      int BRUS_1_2=r9ds.brushes;
+      int VEL_ORUGAS=r9ds.vel_orugas;
+      printf("escobilla_1_2 = %d\n",BRUS_1_2);
+	  printf("ENCENDIDO_ESCOBIULLAS = %d\n",BRUS_ONOFF);
 
-	  controlvel(&variable,velocidad_lineal,velocidad_angular);
 
-	  send_cmd[0] =variable.driver[0];send_cmd[1] =variable.driver[1];
 	  //printf("comandos = %d  %d\n",send_cmd[0],send_cmd[1]);
 	  //printf("value_main : %f\n ",value_control);
 
 
 
-	  sprintf(da,"!M %d %d",send_cmd[0],send_cmd[1]);
+
+
+
+	  switch (VEL_ORUGAS) {
+	  			case 1:
+	  				velocidad_lineal =velocidad_lineal*LINEAR_MAX_VELOCITY;
+	  				break;
+	  			case 2:
+
+	  				velocidad_lineal =velocidad_lineal* LINEAR_MEDIO_MAX_VELOCITY;
+	  				break;
+	  			case 3:
+	  				velocidad_lineal =velocidad_lineal*LINEAR_MINIMO_MAX_VELOCITY;
+	  				break;
+	  }
+
+	  controlvel(&variable,velocidad_lineal,velocidad_angular);
+	  //printf("velocidad_lineal = %f\n",velocidad_lineal);
+
+
+      if (BRUS_ONOFF == 0){
+    	 switch (BRUS_1_2) {
+			case 1:
+
+			    TIM1 -> CCR1  = 100 ;
+			    TIM4 -> CCR1  = 0 ;
+
+				break;
+			case 2:
+
+				TIM4 -> CCR1  = 0 ;
+				TIM1 -> CCR1  = 0 ;
+				break;
+			case 3:
+				TIM4 -> CCR1  = 100 ;
+				TIM1 -> CCR1  =  0 ;
+				break;
+		}
+      }
+      else if (BRUS_ONOFF==1){
+
+     	TIM4 -> CCR1  = 100 ;
+    	TIM1 -> CCR1  = 100 ;
+      }
+
+      HAL_TIM_PWM_Start( & htim4,  TIM_CHANNEL_1);
+      HAL_TIM_PWM_Start( & htim1,  TIM_CHANNEL_1);
+
+      controlvel(&variable, velocidad_lineal, velocidad_angular);
+  	  send_cmd[0] = variable.driver[0];
+  	  send_cmd[1] = variable.driver[1];
+      set_speed(&keya_driver,(int *)&send_cmd[0]);
+
+
+     // HAL_TIM_PWM_Stop( & htim2,  TIM_CHANNEL_1);
 	  //printf("%s\n",da);
 	  //size_t len=strlen(da);
 	  //HAL_UART_Transmit_IT(&huart6,da,len);
 
-	  write_keya(&keya_driver,&da[0],15);
+
       //memset(da,0,50);
 
 
@@ -598,7 +941,7 @@ void StartDefaultTask(void *argument)
 
 /**
   * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM1 interrupt took place, inside
+  * @note   This function is called  when TIM8 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
   * a global variable "uwTick" used as application time base.
   * @param  htim : TIM handle
@@ -609,7 +952,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
+  if (htim->Instance == TIM8) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
